@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    image: my-app:latest  # Використовуємо образ (локальний або з Docker Hub)
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    restart: always
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: always
+
+volumes:
+  jenkins_home:

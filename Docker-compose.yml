@@ -8,7 +8,27 @@ services:
       - "8080:3000"
     environment:
       - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=mydb
     restart: always
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: "always"
 
   prometheus:
     image: prom/prometheus
@@ -35,3 +55,4 @@ services:
 
 volumes:
   jenkins_home:
+  db_data:

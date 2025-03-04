@@ -2,11 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package.json .
+COPY front/package.json .
 
 RUN npm install
 
-COPY . .
+COPY front/. .
 
 EXPOSE 3000
 
